@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RuangPintar — Belajar Cara Penyelesaian Matematika Bangun Ruang</title>
+  <meta name="description" content="Pembahasan matematika bangun ruang yang mudah dipahami: rumus volume, luas permukaan, contoh soal langkah demi langkah, kalkulator otomatis, dan kuis latihan." />
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --ink: #0f172a;
+      --muted: #475569;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #0ea5e9;
+      --ok: #16a34a;
+      --warn: #d97706;
+      --bad: #dc2626;
+      --border: #e2e8f0;
+      --board: #0b1320;
+      --board-ink: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb 55%, #0284c7);
+      color: #fff;
+      padding: 28px 18px;
+    }
+
+    .container {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+      line-height: 1.2;
+    }
+
+    header p {
+      margin: 0;
+      max-width: 720px;
+      opacity: 0.95;
+      font-size: 0.98rem;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .tab-btn {
+      border: 1px solid rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: #fff;
+      color: #1e3a8a;
+      border-color: #fff;
+    }
+
+    main {
+      padding: 22px 0 48px;
+    }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .shape-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .shape-pill {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--ink);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .shape-pill.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+    }
+
+    .card h2, .card h3 {
+      margin-top: 0;
+      line-height: 1.3;
+    }
+
+    .formula-box {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-weight: 600;
+    }
+
+    .tip-box {
+      background: #fffbeb;
+      border-left: 4px solid var(--warn);
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-top: 12px;
+      font-size: 0.93rem;
+    }
+
+    .steps-list {
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+
+    .steps-list li {
+      margin-bottom: 6px;
+    }
+
+    .board {
+      background: var(--board);
+      color: var(--board-ink);
+      border-radius: 12px;
+      padding: 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      line-height: 1.55;
+      min-height: 180px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    input[type="number"], select {
+      width: 100%;
+      padding: 9px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
+
+    .btn:hover { background: var(--primary-dark); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 11px 14px;
+      margin: 8px 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 0.94rem;
+      cursor: pointer;
+    }
+
+    .quiz-option.correct {
+      background: #dcfce7;
+      border-color: var(--ok);
+      font-weight: 600;
+    }
+
+    .quiz-option.wrong {
+      background: #fee2e2;
+      border-color: var(--bad);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: #dbeafe;
+      color: #1e40af;
+      margin-bottom: 8px;
+    }
+
+    .svg-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>RuangPintar: Cara Penyelesaian Bangun Ruang</h1>
+      <p>Belajar rumus volume dan luas permukaan dengan bahasa sederhana, pola berpikir langkah demi langkah, kalkulator penjabaran otomatis, dan kuis latihan.</p>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="materi">1. Materi &amp; Cara Penyelesaian</button>
+        <button class="tab-btn" data-tab="kalkulator">2. Kalkulator Langkah Otomatis</button>
+        <button class="tab-btn" data-tab="kuis">3. Kuis Latihan</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- TAB 1: MATERI -->
+    <section id="materi" class="section active">
+      <div class="card" style="margin-bottom: 16px;">
+        <span class="badge">POLA PIKIR UTAMA</span>
+        <h2>Cara Mudah Menyelesaikan Soal Bangun Ruang</h2>
+        <ol class="steps-list">
+          <li><strong>Kenali bentuk bangun ruangnya</strong>: apakah sisi tegaknya lurus (prisma/tabung/balok/kubus) atau meruncing ke satu titik (limas/kerucut) atau bulat penuh (bola)?</li>
+          <li><strong>Samakan satuan terlebih dahulu</strong>: misalnya semua dalam <code>cm</code> atau <code>dm</code> (ingat: <code>1 liter = 1 dm³</code>).</li>
+          <li><strong>Tulis rumus dasar sebelum memasukkan angka</strong>: ini mencegah salah hitung dan memudahkan mendapat nilai proses saat ulangan.</li>
+          <li><strong>Bedakan Volume vs Luas Permukaan</strong>: <em>Volume</em> = isi di dalam (satuan kubik, pangkat 3). <em>Luas Permukaan</em> = luas seluruh kulit/sisi luar yang menutupi bangun (satuan persegi, pangkat 2).</li>
+        </ol>
+      </div>
+
+      <div class="shape-pills" id="shapePills"></div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="svg-wrap" id="svgContainer"></div>
+          <h2 id="shapeTitle"></h2>
+          <p id="shapeDesc"></p>
+          <div class="formula-box" id="shapeVolumeFormula"></div>
+          <div class="formula-box" id="shapeLpFormula"></div>
+          <div class="tip-box" id="shapeTip"></div>
+        </div>
+
+        <div class="card">
+          <span class="badge">CONTOH SOAL &amp; PENYELESAIAN</span>
+          <h3 id="exampleQuestionTitle"></h3>
+          <p id="exampleQuestionText"></p>
+          <div class="board" id="exampleSteps"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: KALKULATOR -->
+    <section id="kalkulator" class="section">
+      <div class="grid-2">
+        <div class="card">
+          <h2>Kalkulator Penjabaran Langkah</h2>
+          <p>Pilih bangun ruang dan masukkan ukurannya. Langkah penyelesaian akan otomatis muncul di papan tulis.</p>
+          <div class="form-row">
+            <div>
+              <label for="calcShape">Pilih Bangun Ruang</label>
+              <select id="calcShape"></select>
+            </div>
+            <div>
+              <label for="calcUnit">Satuan</label>
+              <select id="calcUnit">
+                <option value="cm">cm</option>
+                <option value="dm">dm</option>
+                <option value="m">m</option>
+              </select>
+            </div>
+          </div>
+          <div id="calcInputs" class="form-row"></div>
+          <button class="btn" id="btnHitung">Hitung &amp; Tampilkan Langkah</button>
+        </div>
+
+        <div class="card">
+          <h3>Papan Penjabaran Langkah</h3>
+          <div class="board" id="calcOutput">Pilih bangun ruang lalu klik "Hitung &amp; Tampilkan Langkah".</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: KUIS -->
+    <section id="kuis" class="section">
+      <div class="card" style="max-width: 720px; margin: 0 auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span class="badge" id="quizCounter">Soal 1</span>
+          <strong id="quizScore">Skor: 0</strong>
+        </div>
+        <h2 id="quizQuestion" style="margin-top: 8px;"></h2>
+        <div id="quizOptions"></div>
+        <div id="quizPembahasan" class="board" style="display:none; margin-top: 12px;"></div>
+        <div style="margin-top: 14px; display:flex; gap:10px;">
+          <button class="btn" id="btnNextQuiz">Soal Berikutnya</button>
+          <button class="btn btn-outline" id="btnResetQuiz">Ulangi Kuis</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const SHAPES = [
+      {
+        id: 'kubus',
+        name: 'Kubus',
+        desc: 'Memiliki 6 sisi berbentuk persegi yang semuanya sama besar dan 12 rusuk sama panjang.',
+        vFormula: 'Volume (V) = s × s × s = s³',
+        lpFormula: 'Luas Permukaan (LP) = 6 × s × s = 6s²',
+        tip: 'Ingat saja: kubus punya 6 wajah/sisi persegi. Satu sisi luasnya s², jadi 6 sisi luasnya 6s².',
+        fields: [{ key: 's', label: 'Panjang rusuk (s)', def: 6 }],
+        exampleTitle: 'Contoh Soal Kubus',
+        exampleText: 'Sebuah kotak mainan berbentuk kubus memiliki panjang rusuk 6 cm. Hitunglah volume dan luas permukaannya!',
+        solve: (d, u) => {
+          const s = d.s;
+          const v = s * s * s;
+          const lp = 6 * s * s;
+          return [
+            `Diketahui: s = ${s} ${u}`,
+            `Ditanya : Volume (V) dan Luas Permukaan (LP)`,
+            ``,
+            `1) Menghitung Volume:`,
+            `   V = s³ = ${s} × ${s} × ${s} = ${v} ${u}³`,
+            ``,
+            `2) Menghitung Luas Permukaan:`,
+            `   LP = 6 × s² = 6 × (${s} × ${s}) = 6 × ${s*s} = ${lp} ${u}²`
+          ].join('\n');
+        },
+        svg: `<svg width="170" height="140" viewBox="0 0 170 140">
+          <polygon points="45,35 105,35 105,95 45,95" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+          <polygon points="45,35 70,15 130,15 105,35" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"/>
+          <polygon points="105,35 130,15 130,75 105,95" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
+          <text x="72" y="113" font-size="13" font-weight="bold" fill="#0f172a">s</text>
+        </svg>`
+      },
+      {
+        id: 'balok',
+        name: 'Balok',
+        desc: 'Memiliki 6 sisi berbentuk persegi panjang (3 pasang sisi yang berhadapan sama luas) dengan panjang (p), lebar (l), dan tinggi (t).',
+        vFormula: 'Volume (V) = p × l × t',
+        lpFormula: 'Luas Permukaan (LP) = 2 × (p×l + p×t + l×t)',
+        tip: 'Volume balok itu "luas alas (p × l) dikali tinggi (t)". Luas permukaan menjumlahkan 3 pasang sisi lalu dikali 2.',
+        fields: [
+          { key: 'p', label: 'Panjang (p)', def: 10 },
+          { key: 'l', label: 'Lebar (l)', def: 5 },
+          { key: 't', label: 'Tinggi (t)', def: 4 }
+        ],
+        exampleTitle: 'Contoh Soal Balok',
+        exampleText: 'Sebuah akuarium berbentuk balok berukuran panjang 10 cm, lebar 5 cm, dan tinggi 4 cm. Berapa volumenya?',
+        solve: (d, u) => {
+          const { p, l, t } = d;
+          const v = p * l * t;
+          const pl = p * l, pt = p * t, lt = l * t;
+          const lp = 2 * (pl + pt + lt);
+          return [
+            `Diketahui: p = ${p} ${u}, l = ${l} ${u}, t = ${t} ${u}`,
+            ``,
+            `1) Volume:`,
+            `   V = p × l × t = ${p} × ${l} × ${t} = ${v} ${u}³`,
+            ``,
+            `2) Luas Permukaan:`,
+            `   LP = 2 × ((${p}×${l}) + (${p}×${t}) + (${l}×${t}))`,
+            `      = 2 × (${pl} + ${pt} + ${lt}) = 2 × ${pl+pt+lt} = ${lp} ${u}²`
+          ].join('\n');
+        },
+        svg: `<svg width="190" height="140" viewBox="0 0 190 140">
+          <polygon points="35,45 115,45 115,105 35,105" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+          <polygon points="35,45 62,22 142,22 115,45" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"/>
+          <polygon points="115,45 142,22 142,82 115,105" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
+          <text x="72" y="120" font-size="12" font-weight="bold" fill="#0f172a">p</text>
+          <text x="131" y="100" font-size="12" font-weight="bold" fill="#0f172a">l</text>
+          <text x="20" y="78" font-size="12" font-weight="bold" fill="#0f172a">t</text>
+        </svg>`
+      },
+      {
+        id: 'tabung',
+        name: 'Tabung',
+        desc: 'Memiliki alas dan tutup berbentuk lingkaran yang kongruen serta selimut berbentuk persegi panjang jika dibuka.',
+        vFormula: 'Volume (V) = π × r² × t',
+        lpFormula: 'Luas Permukaan (LP) = 2 × π × r × (r + t)',
+        tip: 'Gunakan π = 22/7 jika jari-jari (r) atau tinggi (t) kelipatan 7, dan gunakan π = 3,14 jika bukan kelipatan 7.',
+        fields: [
+          { key: 'r', label: 'Jari-jari (r)', def: 7 },
+          { key: 't', label: 'Tinggi (t)', def: 10 }
+        ],
+        exampleTitle: 'Contoh Soal Tabung',
+        exampleText: 'Sebuah kaleng berbentuk tabung memiliki jari-jari 7 cm dan tinggi 10 cm. Hitung volumenya (π = 22/7)!',
+        solve: (d, u) => {
+          const { r, t } = d;
+          const is7 = (r % 7 === 0);
+          const pi = is7 ? 22 / 7 : 3.14;
+          const piLabel = is7 ? '22/7' : '3,14';
+          const v = pi * r * r * t;
+          const lp = 2 * pi * r * (r + t);
+          return [
+            `Diketahui: r = ${r} ${u}, t = ${t} ${u}, π ≈ ${piLabel}`,
+            ``,
+            `1) Volume:`,
+            `   V = π × r² × t = ${piLabel} × ${r}² × ${t}`,
+            `     = ${piLabel} × ${r*r} × ${t} = ${Number(v.toFixed(2))} ${u}³`,
+            ``,
+            `2) Luas Permukaan:`,
+            `   LP = 2 × π × r × (r + t)`,
+            `      = 2 × ${piLabel} × ${r} × (${r} + ${t}) = ${Number(lp.toFixed(2))} ${u}²`
+          ].join('\n');
+        },
+        svg: `<svg width="170" height="140" viewBox="0 0 170 140">
+          <ellipse cx="85" cy="105" rx="42" ry="13" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
+          <rect x="43" y="32" width="84" height="73" fill="#dbeafe" stroke="none"/>
+          <line x1="43" y1="32" x2="43" y2="105" stroke="#1d4ed8" stroke-width="2"/>
+          <line x1="127" y1="32" x2="127" y2="105" stroke="#1d4ed8" stroke-width="2"/>
+          <ellipse cx="85" cy="32" rx="42" ry="13" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"/>
+          <line x1="85" y1="32" x2="127" y2="32" stroke="#dc2626" stroke-width="2"/>
+          <text x="103" y="28" font-size="12" font-weight="bold" fill="#dc2626">r</text>
+          <text x="133" y="72" font-size="12" font-weight="bold" fill="#0f172a">t</text>
+        </svg>`
+      },
+      {
+        id: 'kerucut',
+        name: 'Kerucut',
+        desc: 'Memiliki alas lingkaran dan satu titik puncak. Garis miring dari puncak ke tepi alas disebut garis pelukis (s).',
+        vFormula: 'Volume (V) = 1/3 × π × r² × t',
+        lpFormula: 'Luas Permukaan (LP) = π × r × (r + s)',
+        tip: 'Volume kerucut adalah sepertiga (1/3) dari volume tabung dengan alas dan tinggi yang sama.',
+        fields: [
+          { key: 'r', label: 'Jari-jari (r)', def: 7 },
+          { key: 't', label: 'Tinggi (t)', def: 12 },
+          { key: 's', label: 'Garis pelukis (s)', def: 13 }
+        ],
+        exampleTitle: 'Contoh Soal Kerucut',
+        exampleText: 'Sebuah topi ulang tahun berbentuk kerucut dengan r = 7 cm, t = 12 cm, dan garis pelukis s = 13 cm.',
+        solve: (d, u) => {
+          const { r, t, s } = d;
+          const is7 = (r % 7 === 0);
+          const pi = is7 ? 22 / 7 : 3.14;
+          const piLabel = is7 ? '22/7' : '3,14';
+          const v = (1 / 3) * pi * r * r * t;
+          const lp = pi * r * (r + s);
+          return [
+            `Diketahui: r = ${r} ${u}, t = ${t} ${u}, s = ${s} ${u}, π ≈ ${piLabel}`,
+            ``,
+            `1) Volume:`,
+            `   V = 1/3 × π × r² × t`,
+            `     = 1/3 × ${piLabel} × ${r*r} × ${t} = ${Number(v.toFixed(2))} ${u}³`,
+            ``,
+            `2) Luas Permukaan:`,
+            `   LP = π × r × (r + s)`,
+            `      = ${piLabel} × ${r} × (${r} + ${s}) = ${Number(lp.toFixed(2))} ${u}²`
+          ].join('\n');
+        },
+        svg: `<svg width="170" height="140" viewBox="0 0 170 140">
+          <ellipse cx="85" cy="108" rx="44" ry="12" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"/>
+          <polygon points="85,18 41,108 129,108" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+          <line x1="85" y1="18" x2="85" y2="108" stroke="#64748b" stroke-dasharray="4 3" stroke-width="1.5"/>
+          <text x="90" y="70" font-size="12" font-weight="bold" fill="#0f172a">t</text>
+          <text x="112" y="65" font-size="12" font-weight="bold" fill="#1d4ed8">s</text>
+        </svg>`
+      },
+      {
+        id: 'bola',
+        name: 'Bola',
+        desc: 'Bangun ruang simetris yang semua titik pada permukaannya berjarak sama (r) dari titik pusat.',
+        vFormula: 'Volume (V) = 4/3 × π × r³',
+        lpFormula: 'Luas Permukaan (LP) = 4 × π × r²',
+        tip: 'Perhatikan pangkatnya: Volume memakai r³ (pangkat 3), sedangkan Luas Permukaan memakai r² (pangkat 2).',
+        fields: [{ key: 'r', label: 'Jari-jari (r)', def: 7 }],
+        exampleTitle: 'Contoh Soal Bola',
+        exampleText: 'Sebuah bola memiliki jari-jari 7 cm. Hitung volume dan luas permukaan bola tersebut!',
+        solve: (d, u) => {
+          const { r } = d;
+          const is7 = (r % 7 === 0);
+          const pi = is7 ? 22 / 7 : 3.14;
+          const piLabel = is7 ? '22/7' : '3,14';
+          const v = (4 / 3) * pi * r * r * r;
+          const lp = 4 * pi * r * r;
+          return [
+            `Diketahui: r = ${r} ${u}, π ≈ ${piLabel}`,
+            ``,
+            `1) Volume:`,
+            `   V = 4/3 × π × r³ = 4/3 × ${piLabel} × ${r*r*r} = ${Number(v.toFixed(2))} ${u}³`,
+            ``,
+            `2) Luas Permukaan:`,
+            `   LP = 4 × π × r² = 4 × ${piLabel} × ${r*r} = ${Number(lp.toFixed(2))} ${u}²`
+          ].join('\n');
+        },
+        svg: `<svg width="170" height="140" viewBox="0 0 170 140">
+          <circle cx="85" cy="70" r="46" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+          <ellipse cx="85" cy="70" rx="46" ry="14" fill="none" stroke="#2563eb" stroke-dasharray="4 3" stroke-width="1.5"/>
+          <line x1="85" y1="70" x2="131" y2="70" stroke="#dc2626" stroke-width="2"/>
+          <text x="104" y="65" font-size="12" font-weight="bold" fill="#dc2626">r</text>
+        </svg>`
+      },
+      {
+        id: 'prisma-segitiga',
+        name: 'Prisma Segitiga',
+        desc: 'Memiliki alas dan tutup berbentuk segitiga yang sama besar, serta sisi tegak berbentuk persegi panjang.',
+        vFormula: 'Volume (V) = Luas Alas × tinggi prisma',
+        lpFormula: 'LP = (2 × Luas Alas) + (Keliling Alas × tinggi prisma)',
+        tip: 'Jangan tertukar antara "tinggi segitiga alas" dan "tinggi prisma" (jarak antara segitiga alas dan tutup).',
+        fields: [
+          { key: 'a', label: 'Alas segitiga (a)', def: 6 },
+          { key: 'ts', label: 'Tinggi segitiga (t_alas)', def: 8 },
+          { key: 'tp', label: 'Tinggi prisma (t_prisma)', def: 10 }
+        ],
+        exampleTitle: 'Contoh Soal Prisma Segitiga',
+        exampleText: 'Alas prisma berbentuk segitiga siku-siku dengan alas 6 cm dan tinggi 8 cm. Jika tinggi prisma 10 cm, hitung volumenya!',
+        solve: (d, u) => {
+          const { a, ts, tp } = d;
+          const la = 0.5 * a * ts;
+          const v = la * tp;
+          return [
+            `Diketahui: a = ${a} ${u}, t_alas = ${ts} ${u}, t_prisma = ${tp} ${u}`,
+            ``,
+            `1) Hitung Luas Alas Segitiga:`,
+            `   Luas Alas = 1/2 × a × t_alas = 1/2 × ${a} × ${ts} = ${la} ${u}²`,
+            ``,
+            `2) Hitung Volume Prisma:`,
+            `   V = Luas Alas × t_prisma = ${la} × ${tp} = ${v} ${u}³`
+          ].join('\n');
+        },
+        svg: `<svg width="180" height="140" viewBox="0 0 180 140">
+          <polygon points="35,100 85,100 60,65" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"/>
+          <polygon points="105,100 155,100 130,65" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+          <line x1="60" y1="65" x2="130" y2="65" stroke="#1d4ed8" stroke-width="2"/>
+          <line x1="35" y1="100" x2="105" y2="100" stroke="#1d4ed8" stroke-width="2"/>
+          <line x1="85" y1="100" x2="155" y2="100" stroke="#1d4ed8" stroke-width="2"/>
+        </svg>`
+      },
+      {
+        id: 'limas-segiempat',
+        name: 'Limas Segiempat',
+        desc: 'Memiliki alas berbentuk segiempat (misalnya persegi) dan sisi-sisi tegak berbentuk segitiga yang bertemu di satu puncak.',
+        vFormula: 'Volume (V) = 1/3 × Luas Alas × tinggi limas',
+        lpFormula: 'Luas Permukaan (LP) = Luas Alas + Jumlah Luas Sisi Tegak',
+        tip: 'Sama seperti kerucut, bangun runcing berujung satu selalu memakai pengali 1/3 pada rumus volumenya.',
+        fields: [
+          { key: 's', label: 'Sisi alas persegi (s)', def: 6 },
+          { key: 't', label: 'Tinggi limas (t)', def: 10 }
+        ],
+        exampleTitle: 'Contoh Soal Limas Segiempat',
+        exampleText: 'Sebuah limas beralas persegi dengan panjang sisi 6 cm dan tinggi limas 10 cm. Berapa volumenya?',
+        solve: (d, u) => {
+          const { s, t } = d;
+          const la = s * s;
+          const v = (1 / 3) * la * t;
+          return [
+            `Diketahui: sisi alas = ${s} ${u}, tinggi limas = ${t} ${u}`,
+            ``,
+            `1) Luas Alas Persegi:`,
+            `   Luas Alas = ${s} × ${s} = ${la} ${u}²`,
+            ``,
+            `2) Volume Limas:`,
+            `   V = 1/3 × Luas Alas × t = 1/3 × ${la} × ${t} = ${Number(v.toFixed(2))} ${u}³`
+          ].join('\n');
+        },
+        svg: `<svg width="180" height="140" viewBox="0 0 180 140">
+          <polygon points="40,105 110,105 140,82 70,82" fill="#bfdbfe" stroke="#1d4ed8" stroke-width="2"/>
+          <polygon points="90,20 40,105 110,105" fill="#dbeafe" fill-opacity="0.85" stroke="#1d4ed8" stroke-width="2"/>
+          <line x1="90" y1="20" x2="140" y2="82" stroke="#1d4ed8" stroke-width="2"/>
+          <line x1="90" y1="20" x2="90" y2="93" stroke="#64748b" stroke-dasharray="4 3" stroke-width="1.5"/>
+        </svg>`
+      }
+    ];
+
+    const QUIZ = [
+      {
+        q: 'Sebuah kubus memiliki panjang rusuk 5 cm. Berapakah volumenya?',
+        opts: ['25 cm³', '125 cm³', '150 cm³', '30 cm³'],
+        ans: 1,
+        exp: 'V = s³ = 5 × 5 × 5 = 125 cm³.'
+      },
+      {
+        q: 'Balok berukuran panjang 8 cm, lebar 4 cm, dan tinggi 3 cm. Berapa luas permukaannya?',
+        opts: ['96 cm²', '184 cm²', '160 cm²', '92 cm²'],
+        ans: 1,
+        exp: 'LP = 2 × (8×4 + 8×3 + 4×3) = 2 × (32 + 24 + 12) = 2 × 68 = 136? Tunggu: 32+24+12 = 68, 2 × 68 = 136 cm².'
+      },
+      {
+        q: 'Volume kerucut dengan luas alas 30 cm² dan tinggi 9 cm adalah...',
+        opts: ['270 cm³', '90 cm³', '39 cm³', '45 cm³'],
+        ans: 1,
+        exp: 'V = 1/3 × Luas Alas × t = 1/3 × 30 × 9 = 10 × 9 = 90 cm³.'
+      },
+      {
+        q: '1 liter setara dengan satuan volume...',
+        opts: ['1 cm³', '1 dm³', '1 m³', '10 cm³'],
+        ans: 1,
+        exp: 'Dalam satuan volume, 1 liter = 1 dm³.'
+      }
+    ];
+    // Perbaikan opsi soal no 2 agar konsisten
+    QUIZ[1].opts = ['96 cm²', '136 cm²', '160 cm²', '68 cm²'];
+    QUIZ[1].ans = 1;
+    QUIZ[1].exp = 'LP = 2 × ((8×4) + (8×3) + (4×3)) = 2 × (32 + 24 + 12) = 2 × 68 = 136 cm².';
+
+    // Navigasi Tab
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Render Materi
+    const pillsEl = document.getElementById('shapePills');
+    let activeShape = SHAPES[0];
+
+    function renderShape(shape) {
+      activeShape = shape;
+      document.querySelectorAll('.shape-pill').forEach(p => {
+        p.classList.toggle('active', p.dataset.id === shape.id);
+      });
+      document.getElementById('svgContainer').innerHTML = shape.svg;
+      document.getElementById('shapeTitle').textContent = shape.name;
+      document.getElementById('shapeDesc').textContent = shape.desc;
+      document.getElementById('shapeVolumeFormula').textContent = shape.vFormula;
+      document.getElementById('shapeLpFormula').textContent = shape.lpFormula;
+      document.getElementById('shapeTip').innerHTML = `<strong>Tips Ingat:</strong> ${shape.tip}`;
+      document.getElementById('exampleQuestionTitle').textContent = shape.exampleTitle;
+      document.getElementById('exampleQuestionText').textContent = shape.exampleText;
+      const defData = {};
+      shape.fields.forEach(f => defData[f.key] = f.def);
+      document.getElementById('exampleSteps').textContent = shape.solve(defData, 'cm');
+    }
+
+    SHAPES.forEach(s => {
+      const pill = document.createElement('button');
+      pill.className = 'shape-pill';
+      pill.dataset.id = s.id;
+      pill.textContent = s.name;
+      pill.onclick = () => renderShape(s);
+      pillsEl.appendChild(pill);
+    });
+    renderShape(SHAPES[0]);
+
+    // Kalkulator
+    const calcShapeSel = document.getElementById('calcShape');
+    const calcInputsDiv = document.getElementById('calcInputs');
+
+    SHAPES.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = s.name;
+      calcShapeSel.appendChild(opt);
+    });
+
+    function buildCalcInputs() {
+      const s = SHAPES.find(x => x.id === calcShapeSel.value) || SHAPES[0];
+      calcInputsDiv.innerHTML = '';
+      s.fields.forEach(f => {
+        const wrap = document.createElement('div');
+        wrap.innerHTML = `<label for="inp_${f.key}">${f.label}</label><input type="number" step="any" id="inp_${f.key}" value="${f.def}">`;
+        calcInputsDiv.appendChild(wrap);
+      });
+    }
+
+    calcShapeSel.addEventListener('change', buildCalcInputs);
+    buildCalcInputs();
+
+    document.getElementById('btnHitung').addEventListener('click', () => {
+      const s = SHAPES.find(x => x.id === calcShapeSel.value) || SHAPES[0];
+      const u = document.getElementById('calcUnit').value;
+      const data = {};
+      for (const f of s.fields) {
+        const val = parseFloat(document.getElementById('inp_' + f.key).value);
+        if (isNaN(val) || val <= 0) {
+          document.getElementById('calcOutput').textContent = `Masukkan angka lebih dari 0 untuk "${f.label}".`;
+          return;
+        }
+        data[f.key] = val;
+      }
+      document.getElementById('calcOutput').textContent = s.solve(data, u);
+    });
+
+    // Kuis
+    let qIdx = 0, score = 0, answered = false;
+
+    function renderQuiz() {
+      answered = false;
+      const item = QUIZ[qIdx];
+      document.getElementById('quizCounter').textContent = `Soal ${qIdx + 1} dari ${QUIZ.length}`;
+      document.getElementById('quizScore').textContent = `Skor: ${score}`;
+      document.getElementById('quizQuestion').textContent = item.q;
+      document.getElementById('quizPembahasan').style.display = 'none';
+
+      const optsDiv = document.getElementById('quizOptions');
+      optsDiv.innerHTML = '';
+      item.opts.forEach((optText, i) => {
+        const b = document.createElement('button');
+        b.className = 'quiz-option';
+        b.textContent = optText;
+        b.onclick = () => {
+          if (answered) return;
+          answered = true;
+          const allBtns = optsDiv.querySelectorAll('.quiz-option');
+          allBtns[item.ans].classList.add('correct');
+          if (i === item.ans) {
+            score += 25;
+          } else {
+            b.classList.add('wrong');
+          }
+          document.getElementById('quizScore').textContent = `Skor: ${score}`;
+          const pemb = document.getElementById('quizPembahasan');
+          pemb.style.display = 'block';
+          pemb.textContent = 'Pembahasan:\n' + item.exp;
+        };
+        optsDiv.appendChild(b);
+      });
+    }
+
+    document.getElementById('btnNextQuiz').addEventListener('click', () => {
+      if (qIdx < QUIZ.length - 1) {
+        qIdx++;
+        renderQuiz();
+      } else {
+        document.getElementById('quizQuestion').textContent = `Kuis selesai! Skor akhir kamu: ${score} dari ${QUIZ.length * 25}.`;
+        document.getElementById('quizOptions').innerHTML = '';
+      }
+    });
+
+    document.getElementById('btnResetQuiz').addEventListener('click', () => {
+      qIdx = 0;
+      score = 0;
+      renderQuiz();
+    });
+
+    renderQuiz();
+  </script>
+</body>
+</html>
